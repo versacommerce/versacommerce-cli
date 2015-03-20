@@ -1,0 +1,5 @@
+#!/usr/bin/env ruby
+
+require 'versacommerce/cli/theme'
+
+Versacommerce::CLI::Theme.start

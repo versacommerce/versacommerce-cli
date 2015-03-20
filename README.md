@@ -1,5 +1,7 @@
 # Versacommerce::CLI
 
+[![Gem Version](https://badge.fury.io/rb/versacommerce-cli.svg)](http://badge.fury.io/rb/versacommerce-cli)
+
 Versacommerce::CLI is a Command Line Interface tool that interacts with several VersaCommerce-related services.
 
 ## Requirements

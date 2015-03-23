@@ -30,8 +30,10 @@ module Versacommerce
       private
 
       def write(*messages)
+        time = Time.now.strftime('%F %R')
+
         messages.each do |message|
-          puts '-- %s' % message
+          puts '[%s] -- %s' % [time, message]
         end
       end
     end

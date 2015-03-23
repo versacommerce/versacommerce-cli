@@ -37,6 +37,8 @@ module Versacommerce
       desc 'watch', 'Watches a directory and pushes file changes to the Theme API.'
       option :path, default: Pathname.pwd
       def watch
+        ensure_authorization!
+
         theme_path = Pathname.new(options[:path]).expand_path
         logger.info 'Watching %s' % theme_path
 
@@ -49,11 +51,13 @@ module Versacommerce
           end
         end
 
-        listener.start
-        sleep
-      rescue SystemExit, Interrupt
-        logger.info('Stopped watching')
-        exit
+        begin
+          listener.start
+          sleep
+        rescue SystemExit, Interrupt
+          logger.info('Stopped watching')
+          exit
+        end
       end
 
       private

@@ -40,6 +40,8 @@ module Versacommerce
         ensure_authorization!
 
         theme_path = Pathname.new(options[:path]).expand_path
+        validate_path!(theme_path)
+
         logger.info 'Watching %s' % theme_path
 
         listener = Listen.to(theme_path) do |modified, added, removed|
@@ -66,6 +68,8 @@ module Versacommerce
         ensure_authorization!
 
         theme_path = Pathname.new(options[:path]).expand_path
+        validate_path!(theme_path)
+
         logger.info 'Uploading %s' % theme_path
         add_directory(theme_path, theme_path)
         logger.success('Uploaded %s' % theme_path)
@@ -116,7 +120,14 @@ module Versacommerce
 
       def ensure_authorization!
         unless authorization
-          puts 'Could not find authorization.'
+          logger.error('Could not find authorization.')
+          exit 1
+        end
+      end
+
+      def validate_path!(path)
+        unless path.directory?
+          logger.error('%s is not a directory.' % path)
           exit 1
         end
       end

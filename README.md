@@ -45,13 +45,16 @@ authorization: YOUR_AUTHORIZATION
 ```
 
 3.
+Provide an implicit config file in the working directory: Same as 2, but the config file location is fix to the working directory.
+
+4.
 Provide a `THEME_AUTHORIZATION` environment variable:
 
 ```sh
 THEME_AUTHORIZATION=YOUR_AUTHORIZATION vc-theme <subcommand>
 ```
 
-4.
+5.
 Provide an implicit config file. Same as 2, but the config file location is fix to `~/.config/versacommerce/cli/config.yml`.
 
 #### Quicksaving Authorization

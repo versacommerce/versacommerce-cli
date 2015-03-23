@@ -153,11 +153,18 @@ module Versacommerce
       end
 
       def authorization
-        options[:authorization] || explicit_config['authorization'] || ENV['THEME_AUTHORIZATION'] || implicit_config['authorization']
+        options[:authorization] || explicit_config['authorization'] || implicit_pwd_config['authorization'] || ENV['THEME_AUTHORIZATION'] || implicit_config['authorization']
       end
 
       def explicit_config
         @explicit_config ||= options[:config] ? YAML.load_file(options[:config]) : {}
+      end
+
+      def implicit_pwd_config
+        @implicit_pwd_config ||= begin
+          config = Pathname.pwd.join('config.yml').expand_path
+          config.file? ? YAML.load_file(config) : {}
+        end
       end
 
       def implicit_config

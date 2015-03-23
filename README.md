@@ -72,7 +72,7 @@ The directory will be created by using `mkdir -p`, so you don't need to worry ab
 
 #### `vc-theme watch`
 
-The `vc-theme watch` subcommand is used to synchronize local files to the Theme API. Usage:
+The `vc-theme watch` subcommand is used to synchronize local files with the Theme API. Usage:
 
 ```sh
 $ vc-theme watch

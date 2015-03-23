@@ -11,10 +11,10 @@ require 'versacommerce/theme_api_client'
 module Versacommerce
   module CLI
     class Theme < Thor
-      class_option :authorization
-      class_option :config
-      class_option :verbose, type: :boolean
-      class_option :save_config
+      class_option :authorization, aliases: :a
+      class_option :config, banner: 'CONFIG_PATH', aliases: :c
+      class_option :verbose, type: :boolean, aliases: :v
+      class_option :save_config, banner: 'CONFIG_PATH', aliases: :s
 
       desc 'download', 'Downloads a complete Theme from the Theme API.'
       option :path, default: Pathname.pwd.join('theme')

@@ -84,6 +84,20 @@ This will watch for file changes made in (and below) the working directory. When
 $ vc-theme watch --path=path/to/directory
 ```
 
+#### `vc-theme upload`
+
+The `vc-theme upload` subcommand is used to push a directory to the Theme API. Usage:
+
+```sh
+$ vc-theme upload
+```
+
+This will upload the working directory and its descendants to the Theme API. For each file found under the working directory the upload process will try to delete and readd the file to the Theme API. If you want to change the path that is being uploaded, provide a `path` command line option:
+
+```sh
+$ vc-theme upload --path=path/to/directory
+```
+
 ## Development
 
 After checking out the repo, run `bin/setup` to install dependencies. Then, run `bin/console` for an interactive prompt that will allow you to experiment.

@@ -60,6 +60,17 @@ module Versacommerce
         end
       end
 
+      desc 'upload', 'Uploads a directory and its descendants to the Theme API.'
+      option :path, default: Pathname.pwd
+      def upload
+        ensure_authorization!
+
+        theme_path = Pathname.new(options[:path]).expand_path
+        logger.info 'Uploading %s' % theme_path
+        add_directory(theme_path, theme_path)
+        logger.success('Uploaded %s' % theme_path)
+      end
+
       private
 
       def add_file(theme_path, absolute_path)
@@ -85,6 +96,18 @@ module Versacommerce
         relative_path = Pathname.new(absolute_path).relative_path_from(theme_path)
         client.files.delete(relative_path)
       rescue Versacommerce::ThemeAPIClient::Fetcher::RecordNotFoundError
+      end
+
+      def add_directory(theme_path, path)
+        path.children.each do |child|
+          case child.ftype
+          when 'file'
+            delete_file(theme_path, child)
+            add_file(theme_path, child)
+          when 'directory'
+            add_directory(theme_path, child)
+          end
+        end
       end
 
       def client

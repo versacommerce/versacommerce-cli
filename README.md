@@ -18,6 +18,8 @@ $ gem install versacommerce-cli
 
 ### `vc-theme`
 
+#### Authorization
+
 The `vc-theme` command has several subcommands that all need an Authorization in order to work. You can get such an Authorization from your shop's admin section.
 
 There are 4 ways to provide an Authorization to the CLI, which are checked in order:
@@ -51,6 +53,20 @@ THEME_AUTHORIZATION=YOUR_AUTHORIZATION vc-theme <subcommand>
 
 4.
 Provide an implicit config file. Same as 2, but the config file location is fix to `~/.config/versacommerce/cli/config.yml`.
+
+#### Quicksaving Authorization
+
+You can quicksave the given authorization (from any source) to a config.yml file inside the working directory using the --save-config command line option:
+
+```sh
+$ vc-theme <subcommand> --save-config
+```
+
+It's also possible to change the path the config.yml file is saved to:
+
+```sh
+$ vc-theme <subcommand> --save-config=path/to/directory
+```
 
 The following subcommands are available:
 

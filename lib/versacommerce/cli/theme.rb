@@ -14,11 +14,13 @@ module Versacommerce
       class_option :authorization
       class_option :config
       class_option :verbose, type: :boolean
+      class_option :save_config
 
       desc 'download', 'Downloads a complete Theme from the Theme API.'
       option :path, default: Pathname.pwd.join('theme')
       def download
         ensure_authorization!
+        save_config
 
         path = Pathname.new(options[:path]).expand_path
         logger.info('Downloading Theme to %s' % path)
@@ -38,6 +40,7 @@ module Versacommerce
       option :path, default: Pathname.pwd
       def watch
         ensure_authorization!
+        save_config
 
         theme_path = Pathname.new(options[:path]).expand_path
         validate_path!(theme_path)
@@ -66,6 +69,7 @@ module Versacommerce
       option :path, default: Pathname.pwd
       def upload
         ensure_authorization!
+        save_config
 
         theme_path = Pathname.new(options[:path]).expand_path
         validate_path!(theme_path)
@@ -116,6 +120,22 @@ module Versacommerce
 
       def client
         @client ||= ThemeAPIClient.new(authorization: authorization)
+      end
+
+      def save_config
+        if config = options[:save_config]
+          path = case config
+          when 'save_config'
+            Pathname.pwd.expand_path
+          else
+            Pathname.new(config).expand_path
+          end
+
+          validate_path!(path)
+          yaml = {'authorization' => authorization}.to_yaml
+          File.write(path.join('config.yml'), yaml)
+          logger.debug('Saved config.yml to %s' % path)
+        end
       end
 
       def ensure_authorization!

@@ -21,9 +21,9 @@ Gem::Specification.new do |spec|
   spec.required_ruby_version = '>= 2.0.0'
 
   spec.add_runtime_dependency 'thor', '0.19.1'
-  spec.add_runtime_dependency 'listen', '~> 2.9'
+  spec.add_runtime_dependency 'listen', '~> 2.10'
   spec.add_runtime_dependency 'colorize', '0.7.5'
-  spec.add_runtime_dependency 'versacommerce-theme_api_client', '0.1.1'
+  spec.add_runtime_dependency 'versacommerce-theme_api_client', '0.1.2'
 
   spec.add_development_dependency 'bundler', '~> 1.8'
   spec.add_development_dependency 'rake', '~> 10.4'

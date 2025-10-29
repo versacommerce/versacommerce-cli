@@ -6,7 +6,7 @@ Versacommerce::CLI is a Command Line Interface tool that interacts with several 
 
 ## Requirements
 
-Ruby ≥ 2.0.0
+Ruby ≥ 3.1.0
 
 ## Installation
 

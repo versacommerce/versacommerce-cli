@@ -33,7 +33,7 @@ module Versacommerce
         time = Time.now.strftime('%F %R')
 
         messages.each do |message|
-          puts '[%s] -- %s' % [time, message]
+          puts "[#{time}] -- #{message}"
         end
       end
     end

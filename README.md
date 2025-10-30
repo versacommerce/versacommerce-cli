@@ -57,6 +57,56 @@ THEME_AUTHORIZATION=YOUR_AUTHORIZATION vc-theme <subcommand>
 5.
 Provide an implicit config file. Same as 2, but the config file location is fix to `~/.config/versacommerce/cli/config.yml`.
 
+#### Additional Options
+
+All `vc-theme` subcommands support the following additional options:
+
+##### SSL Verification
+
+By default, SSL certificate verification is enabled. You can disable it for development/testing environments with self-signed certificates:
+
+```sh
+$ vc-theme <subcommand> --no-ssl-verify
+```
+
+Or via environment variable:
+
+```sh
+$ SSL_VERIFY=false vc-theme <subcommand>
+```
+
+Or in your config file:
+
+```yaml
+authorization: YOUR_AUTHORIZATION
+ssl_verify: false
+```
+
+**Warning:** Disabling SSL verification is not recommended for production environments.
+
+##### Custom Base URL
+
+If you need to connect to a different API endpoint (e.g., staging environment):
+
+```sh
+$ vc-theme <subcommand> --base-url=https://staging-theme-api.example.com
+# or using the short alias:
+$ vc-theme <subcommand> -b https://staging-theme-api.example.com
+```
+
+Or via environment variable:
+
+```sh
+$ THEME_API_BASE_URL=https://staging-theme-api.example.com vc-theme <subcommand>
+```
+
+Or in your config file:
+
+```yaml
+authorization: YOUR_AUTHORIZATION
+base_url: https://staging-theme-api.example.com
+```
+
 #### Quicksaving Authorization
 
 You can quicksave the given authorization (from any source) to a config.yml file inside the working directory using the --save-config command line option:

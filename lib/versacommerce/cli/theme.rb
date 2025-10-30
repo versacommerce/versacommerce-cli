@@ -15,10 +15,12 @@ module Versacommerce
         true
       end
 
-      class_option :authorization, aliases: :a
-      class_option :config, banner: 'CONFIG_PATH', aliases: :c
-      class_option :verbose, type: :boolean, aliases: :v
-      class_option :save_config, banner: 'CONFIG_PATH', aliases: :s
+      class_option :authorization, aliases: :a, desc: 'API authorization token'
+      class_option :config, banner: 'CONFIG_PATH', aliases: :c, desc: 'Path to config file'
+      class_option :verbose, type: :boolean, aliases: :v, desc: 'Enable verbose logging'
+      class_option :save_config, banner: 'CONFIG_PATH', aliases: :s, desc: 'Save config to file'
+      class_option :ssl_verify, type: :boolean, default: true, desc: 'Verify SSL certificates (default: true)'
+      class_option :base_url, aliases: :b, desc: 'Theme API base URL (default: https://theme-api.versacommerce.de)'
 
       desc 'download', 'Downloads a complete Theme from the Theme API.'
       option :path, default: './theme'
@@ -123,7 +125,11 @@ module Versacommerce
       end
 
       def client
-        @client ||= ThemeAPIClient.new(authorization: authorization)
+        @client ||= begin
+          client_options = {authorization: authorization, ssl_verify: ssl_verify}
+          client_options[:base_url] = base_url if base_url
+          ThemeAPIClient.new(client_options)
+        end
       end
 
       def save_config
@@ -158,6 +164,25 @@ module Versacommerce
 
       def authorization
         options[:authorization] || explicit_config['authorization'] || implicit_pwd_config['authorization'] || ENV['THEME_AUTHORIZATION'] || implicit_config['authorization']
+      end
+
+      def ssl_verify
+        # Check CLI option first (can be true, false, or nil if not provided)
+        return options[:ssl_verify] unless options[:ssl_verify].nil?
+
+        # Check config files
+        config_value = explicit_config['ssl_verify'] || implicit_pwd_config['ssl_verify'] || implicit_config['ssl_verify']
+        return config_value unless config_value.nil?
+
+        # Check environment variable (SSL_VERIFY=false to disable)
+        return false if ENV['SSL_VERIFY'] == 'false'
+
+        # Default to true (secure by default)
+        true
+      end
+
+      def base_url
+        options[:base_url] || explicit_config['base_url'] || implicit_pwd_config['base_url'] || ENV['THEME_API_BASE_URL'] || implicit_config['base_url']
       end
 
       def explicit_config
